@@ -6,160 +6,219 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ===== BACKGROUND ===== */
 body {
   font-family: Arial, sans-serif;
-  background: #eef2f5;
+  background: linear-gradient(135deg, #dbeafe, #f0fdf4);
+  min-height: 100vh;
   margin: 0;
-  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+/* ===== CONTAINER ===== */
 .container {
+  width: 100%;
   max-width: 420px;
-  background: #fff;
-  margin: 40px auto;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
+
+/* ===== TITLE ===== */
 h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
+
+/* ===== FORM ===== */
 input, select, button {
   width: 100%;
-  padding: 10px;
+  padding: 11px;
   margin-top: 10px;
   font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  box-sizing: border-box;
 }
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #22c55e;
+}
+
+/* ===== BUTTON ===== */
 button {
-  background: #28a745;
+  background: #22c55e;
   color: white;
   border: none;
-  border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
+  margin-top: 15px;
 }
+
 button:hover {
-  background: #218838;
+  background: #16a34a;
 }
+
+/* ===== MESSAGE ===== */
 #msg {
   margin-top: 15px;
   text-align: center;
   font-weight: bold;
 }
+
+/* ===== LOADING ===== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  border: 5px solid #e5e7eb;
+  border-top: 5px solid #22c55e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 </style>
 </head>
 
 <body>
-<div class="container">
-  <h2>📋 Điểm danh theo tháng</h2>
 
-  <!-- 🔽 CHỌN TÊN HỌC SINH -->
-  <select id="studentSelect" onchange="fillStudentInfo()">
+<div class="container">
+  <h2>📋 Điểm danh</h2>
+
+  <select id="studentSelect">
     <option value="">-- Chọn học sinh --</option>
     <option value="1|Trung|12A11">Trung (12A11)</option>
     <option value="2|An|12A11">An (12A11)</option>
     <option value="3|Nguyễn Lê Hải Nam|12A11">Nguyễn Lê Hải Nam (12A11)</option>
   </select>
 
-  <!-- Thông tin tự điền -->
-  <input type="text" id="studentId" placeholder="ID học sinh">
-  <input type="text" id="name" placeholder="Họ và tên">
-  <input type="text" id="className" placeholder="Lớp">
+  <input type="text" id="studentId" placeholder="Số Thứ Tự" readonly>
+  <input type="text" id="name" placeholder="Họ và tên" readonly>
+  <input type="text" id="className" placeholder="Lớp" readonly>
 
-  <!-- Tháng -->
   <select id="month">
-    <option value="Tháng 1">Tháng 1</option>
-    <option value="Tháng 2">Tháng 2</option>
-    <option value="Tháng 3">Tháng 3</option>
-    <option value="Tháng 4">Tháng 4</option>
-    <option value="Tháng 5">Tháng 5</option>
-    <option value="Tháng 6">Tháng 6</option>
-    <option value="Tháng 7">Tháng 7</option>
-    <option value="Tháng 8">Tháng 8</option>
-    <option value="Tháng 9">Tháng 9</option>
-    <option value="Tháng 10">Tháng 10</option>
-    <option value="Tháng 11">Tháng 11</option>
-    <option value="Tháng 12">Tháng 12</option>
+    <option>Tháng 1</option><option>Tháng 2</option><option>Tháng 3</option>
+    <option>Tháng 4</option><option>Tháng 5</option><option>Tháng 6</option>
+    <option>Tháng 7</option><option>Tháng 8</option><option>Tháng 9</option>
+    <option>Tháng 10</option><option>Tháng 11</option><option>Tháng 12</option>
   </select>
 
-  <!-- Trạng thái -->
   <select id="status">
     <option value="CoMat">✅ Có mặt</option>
     <option value="NghiKhongPhep">❌ Nghỉ không phép</option>
     <option value="NghiCoPhep">📝 Nghỉ có phép</option>
-
     <option value="CupTiet1">🚫 Cúp tiết 1</option>
     <option value="CupTiet2">🚫 Cúp tiết 2</option>
     <option value="CupTiet3">🚫 Cúp tiết 3</option>
     <option value="CupTiet4">🚫 Cúp tiết 4</option>
-
     <option value="DiTre1">⏰ Đi trễ tiết 1</option>
     <option value="DiTre2">⏰ Đi trễ tiết 2</option>
     <option value="DiTre3">⏰ Đi trễ tiết 3</option>
     <option value="DiTre4">⏰ Đi trễ tiết 4</option>
   </select>
 
-  <button onclick="submitAttendance()">Điểm danh</button>
+  <button id="submitBtn">Điểm danh</button>
   <div id="msg"></div>
+</div>
+
+<!-- LOADING -->
+<div id="loading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Đang gửi dữ liệu...</p>
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbw58usaB54JssI9I-oZdOZ6l6gw5fq_4LViXof7xQ6eUE8CLyLvr93TzS6jQRFKlvpr8g/exec";
 
-/* 🔹 Tự điền ID + Tên + Lớp */
-function fillStudentInfo() {
-  const val = document.getElementById("studentSelect").value;
-  if (!val) return;
+const studentSelect = document.getElementById("studentSelect");
+const studentId = document.getElementById("studentId");
+const nameInput = document.getElementById("name");
+const classNameInput = document.getElementById("className");
+const month = document.getElementById("month");
+const status = document.getElementById("status");
+const msg = document.getElementById("msg");
+const btn = document.getElementById("submitBtn");
 
-  const [id, name, className] = val.split("|");
-  document.getElementById("studentId").value = id;
-  document.getElementById("name").value = name;
-  document.getElementById("className").value = className;
+/* ===== FILL STUDENT ===== */
+studentSelect.addEventListener("change", () => {
+  if (!studentSelect.value) return;
+  const [id, name, cls] = studentSelect.value.split("|");
+  studentId.value = id;
+  nameInput.value = name;
+  classNameInput.value = cls;
+});
+
+/* ===== LOADING ===== */
+function showLoading() {
+  document.getElementById("loading").style.display = "flex";
+  btn.disabled = true;
 }
 
-function submitAttendance() {
-  const id = document.getElementById("studentId").value.trim();
-  const name = document.getElementById("name").value.trim();
-  const className = document.getElementById("className").value.trim();
-  const month = document.getElementById("month").value;
-  const status = document.getElementById("status").value;
+function hideLoading() {
+  document.getElementById("loading").style.display = "none";
+  btn.disabled = false;
+}
 
-  if (!id || !name || !className) {
-    showMsg("⚠️ Vui lòng chọn hoặc nhập đầy đủ thông tin", "red");
+/* ===== MESSAGE ===== */
+function showMsg(text, color) {
+  msg.innerText = text;
+  msg.style.color = color;
+  setTimeout(() => msg.innerText = "", 3000);
+}
+
+/* ===== SUBMIT ===== */
+btn.addEventListener("click", () => {
+  if (!studentId.value) {
+    showMsg("⚠️ Vui lòng chọn học sinh", "red");
     return;
   }
+
+  showLoading();
 
   fetch(API_URL, {
     method: "POST",
     mode: "no-cors",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, name, className, month, status })
+    body: JSON.stringify({
+      id: studentId.value,
+      name: nameInput.value,
+      className: classNameInput.value,
+      month: month.value,
+      status: status.value
+    })
   })
   .then(() => {
+    hideLoading();
     showMsg("🎉 Điểm danh thành công!", "green");
-
-    // 🔹 Reset form
-    document.getElementById("studentSelect").value = "";
-    document.getElementById("studentId").value = "";
-    document.getElementById("name").value = "";
-    document.getElementById("className").value = "";
-    document.getElementById("month").selectedIndex = 0;
-    document.getElementById("status").selectedIndex = 0;
+    studentSelect.value = "";
+    studentId.value = nameInput.value = classNameInput.value = "";
   })
   .catch(() => {
+    hideLoading();
     showMsg("❌ Gửi dữ liệu thất bại", "red");
   });
-}
-
-function showMsg(text, color) {
-  const msg = document.getElementById("msg");
-  msg.innerText = text;
-  msg.style.color = color;
-
-  // 🔹 Ẩn thông báo sau 3 giây
-  setTimeout(() => {
-    msg.innerText = "";
-  }, 3000);
-}
+});
 </script>
 
 </body>
