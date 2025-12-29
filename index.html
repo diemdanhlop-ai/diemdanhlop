@@ -6,56 +6,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#4facfe,#00f2fe);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:0;
+/* Reset cơ bản */
+* { 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    user-select: none;
 }
-*{ user-select:none; }
-.box{
-    background:#fff;
-    padding:25px;
-    border-radius:10px;
-    width:300px;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
 }
-input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    border-radius:6px;
-    border:1px solid #ccc;
-    font-size:15px;
-    user-select:auto;
+
+.box {
+    background: #fff;
+    padding: 35px 30px;
+    border-radius: 15px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
 }
-button{
-    width:100%;
-    padding:10px;
-    border:none;
-    background:#4facfe;
-    color:#fff;
-    font-size:16px;
-    border-radius:6px;
-    cursor:pointer;
+
+.box:hover {
+    transform: translateY(-5px);
 }
-button:disabled{
-    background:#aaa;
-    cursor:not-allowed;
+
+h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #333;
 }
-.error{
-    color:red;
-    font-size:14px;
-    display:none;
+
+input {
+    width: 100%;
+    padding: 12px 10px;
+    margin: 10px 0 20px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    user-select: auto;
+    transition: border 0.3s;
 }
-.lock{
-    color:#e67e22;
-    font-size:14px;
-    display:none;
+
+input:focus {
+    border-color: #4facfe;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #4facfe;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover:not(:disabled) {
+    background: #00f2fe;
+}
+
+button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+.error, .lock {
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+}
+
+.error {
+    color: #e74c3c;
+}
+
+.lock {
+    color: #e67e22;
 }
 </style>
 </head>
@@ -64,24 +100,19 @@ button:disabled{
 
 <div class="box">
     <h2>🔐 Đăng nhập</h2>
-    <input type="password" id="password" placeholder="Nhập mật khẩu"
-           autocomplete="off" onpaste="return false">
+    <input type="password" id="password" placeholder="Nhập mật khẩu" autocomplete="off" onpaste="return false">
     <button id="btn" onclick="login()">Vào trang</button>
     <p class="error" id="error">❌ Sai mật khẩu!</p>
     <p class="lock" id="lock">🔒 Bị khóa 10 phút</p>
 </div>
 
 <script>
-/* 🔑 MẬT KHẨU (KHÔNG MÃ HÓA) */
-const PASSWORD = "123456"; // 👉 đổi tại đây
-
+const PASSWORD = "123456"; // Mật khẩu
 const MAX_FAIL = 3;
 const LOCK_TIME = 10 * 60 * 1000; // 10 phút
-
 const failKey = "failCount";
 const lockKey = "lockUntil";
 
-/* Kiểm tra trạng thái khóa */
 function checkLock(){
     const lockUntil = localStorage.getItem(lockKey);
     if(!lockUntil) return false;
@@ -89,8 +120,7 @@ function checkLock(){
     const now = Date.now();
     if(now < lockUntil){
         const remain = Math.ceil((lockUntil - now)/60000);
-        document.getElementById("lock").innerText =
-            "🔒 Bị khóa " + remain + " phút";
+        document.getElementById("lock").innerText = "🔒 Bị khóa " + remain + " phút";
         document.getElementById("lock").style.display = "block";
         document.getElementById("btn").disabled = true;
         return true;
@@ -101,7 +131,6 @@ function checkLock(){
     }
 }
 
-/* Chạy khi load trang */
 checkLock();
 
 function login(){
@@ -125,7 +154,7 @@ function login(){
     }
 }
 
-/* Chống chuột phải + F12 */
+// Chống chuột phải + F12 + Ctrl+U/S
 document.addEventListener("contextmenu", e => e.preventDefault());
 document.addEventListener("keydown", e => {
     if (e.key === "F12" || (e.ctrlKey && ["u","s"].includes(e.key.toLowerCase()))){
