@@ -136,6 +136,14 @@ function submitAttendance() {
   })
   .then(() => {
     showMsg("🎉 Điểm danh thành công!", "green");
+
+    // 🔹 Reset form
+    document.getElementById("studentSelect").value = "";
+    document.getElementById("studentId").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("className").value = "";
+    document.getElementById("month").selectedIndex = 0;
+    document.getElementById("status").selectedIndex = 0;
   })
   .catch(() => {
     showMsg("❌ Gửi dữ liệu thất bại", "red");
@@ -146,6 +154,11 @@ function showMsg(text, color) {
   const msg = document.getElementById("msg");
   msg.innerText = text;
   msg.style.color = color;
+
+  // 🔹 Ẩn thông báo sau 3 giây
+  setTimeout(() => {
+    msg.innerText = "";
+  }, 3000);
 }
 </script>
 
