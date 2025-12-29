@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đăng nhập</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:0;
+}
+*{ user-select:none; }
+.box{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    width:300px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:15px;
+    user-select:auto;
+}
+button{
+    width:100%;
+    padding:10px;
+    border:none;
+    background:#4facfe;
+    color:#fff;
+    font-size:16px;
+    border-radius:6px;
+    cursor:pointer;
+}
+button:disabled{
+    background:#aaa;
+    cursor:not-allowed;
+}
+.error{
+    color:red;
+    font-size:14px;
+    display:none;
+}
+.lock{
+    color:#e67e22;
+    font-size:14px;
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>🔐 Đăng nhập</h2>
+    <input type="password" id="password" placeholder="Nhập mật khẩu"
+           autocomplete="off" onpaste="return false">
+    <button id="btn" onclick="login()">Vào trang</button>
+    <p class="error" id="error">❌ Sai mật khẩu!</p>
+    <p class="lock" id="lock">🔒 Bị khóa 10 phút</p>
+</div>
+
+<script>
+/* 🔑 MẬT KHẨU (KHÔNG MÃ HÓA) */
+const PASSWORD = "123456"; // 👉 đổi tại đây
+
+const MAX_FAIL = 3;
+const LOCK_TIME = 10 * 60 * 1000; // 10 phút
+
+const failKey = "failCount";
+const lockKey = "lockUntil";
+
+/* Kiểm tra trạng thái khóa */
+function checkLock(){
+    const lockUntil = localStorage.getItem(lockKey);
+    if(!lockUntil) return false;
+
+    const now = Date.now();
+    if(now < lockUntil){
+        const remain = Math.ceil((lockUntil - now)/60000);
+        document.getElementById("lock").innerText =
+            "🔒 Bị khóa " + remain + " phút";
+        document.getElementById("lock").style.display = "block";
+        document.getElementById("btn").disabled = true;
+        return true;
+    }else{
+        localStorage.removeItem(lockKey);
+        localStorage.removeItem(failKey);
+        return false;
+    }
+}
+
+/* Chạy khi load trang */
+checkLock();
+
+function login(){
+    if(checkLock()) return;
+
+    const pass = document.getElementById("password").value;
+
+    if(pass === PASSWORD){
+        sessionStorage.setItem("login","true");
+        localStorage.removeItem(failKey);
+        window.location.href = "trangchu.html";
+    }else{
+        let fail = parseInt(localStorage.getItem(failKey) || "0") + 1;
+        localStorage.setItem(failKey, fail);
+        document.getElementById("error").style.display = "block";
+
+        if(fail >= MAX_FAIL){
+            localStorage.setItem(lockKey, Date.now() + LOCK_TIME);
+            checkLock();
+        }
+    }
+}
+
+/* Chống chuột phải + F12 */
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+    if (e.key === "F12" || (e.ctrlKey && ["u","s"].includes(e.key.toLowerCase()))){
+        e.preventDefault();
+    }
+});
+</script>
+
+</body>
+</html>
