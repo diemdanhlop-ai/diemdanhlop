@@ -40,11 +40,6 @@ input, select, button {
   box-sizing: border-box;
 }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: #22c55e;
-}
-
 button {
   background: #22c55e;
   color: #fff;
@@ -54,22 +49,36 @@ button {
   margin-top: 15px;
 }
 
-button:hover {
-  background: #16a34a;
-}
-
 #msg {
   margin-top: 15px;
   text-align: center;
   font-weight: bold;
 }
 
+/* ===== KHUNG MÔN ===== */
+.subject-box {
+  margin-top: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #f9fafb;
+}
+
+.subject-box label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* ===== LOADING ===== */
 .loading-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(255,255,255,0.85);
   display: none;
   align-items: center;
@@ -85,7 +94,6 @@ button:hover {
   border-top: 5px solid #22c55e;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 10px;
 }
 
 @keyframes spin {
@@ -99,7 +107,7 @@ button:hover {
 <div class="container">
   <h2>📋 Điểm danh</h2>
 
-  <!-- CHỌN HỌC SINH -->
+  <!-- HỌC SINH -->
   <select id="studentSelect">
     <option value="">-- Chọn học sinh --</option>
     <option value="1|Phương Anh|12A11">Phương Anh</option>
@@ -179,46 +187,62 @@ button:hover {
 
   <!-- TRẠNG THÁI -->
   <select id="status">
+
     <option value="CoMat">✅ Có mặt</option>
     <option value="Nghĩ không phép">❌ Nghỉ không phép</option>
     <option value="Nghĩ có phép">📝 Nghỉ có phép</option>
-    <option value="Cúp tiết 1">🚫 Cúp tiết 1</option>
-    <option value="Cúp tiết 2">🚫 Cúp tiết 2</option>
-    <option value="Cúp tiết 3">🚫 Cúp tiết 3</option>
-    <option value="Cúp tiết 4">🚫 Cúp tiết 4</option>
+
+    <option value="Vắng có phép tiết 1">🚫 Vắng tiết 1 (Có phép)</option>
+    <option value="Vắng có phép tiết 2">🚫 Vắng tiết 2 (Có phép)</option>
+    <option value="Vắng có phép tiết 3">🚫 Vắng tiết 3 (Có phép) </option>
+    <option value="Vắng có phép tiết 4">🚫 Vắng tiết 4 (Có phép)</option>
+    <option value="Vắng có phép tiết 1 và 2">🚫 Vắng tiết 1 và 2 (Có phép)</option>
+    <option value="Vắng có phép tiết 2 và 3">🚫 Vắng tiết 2 và 3 (Có phép)</option>
+    <option value="Vắng có phép tiết 3 và 4">🚫 Vắng tiết 3  và 4 (Có phép)</option>
+
+
+
+    <option value="Vắng không phép tiết 1 ">🚫 Vắng tiết 1 (Không phép)</option>
+    <option value="Vắng không phép tiết 2">🚫 Vắng tiết 2 (Không phép)</option>
+    <option value="Vắng không phép tiết 3">🚫 Vắng tiết 3 (Không phép) </option>
+    <option value="Vắng không phép tiết 4">🚫 Vắng tiết 4 (Không phép)</option>
+    <option value="Vắng không phép  tiết 1 và 2">🚫 Vắng tiết 1  và 2 (Không phép)</option>
+    <option value="Vắng không phép tiết 2 và 3">🚫 Vắng tiết 2 và 3 (Không phép)</option>
+    <option value="Vắng không phép  tiết 3 và 4">🚫 Vắng tiết 3 và 4 (Không phép)</option>
+
+
     <option value="Đi trể tiết 1">⏰ Đi trễ tiết 1</option>
     <option value="Đi trể tiết 2">⏰ Đi trễ tiết 2</option>
     <option value="Đi trể tiết 3">⏰ Đi trễ tiết 3</option>
     <option value="Đi trể tiết 4">⏰ Đi trễ tiết 4</option>
+
   </select>
 
-  <!-- MÔN -->
-  <select id="subject">
-    <option value="">-- Chọn môn --</option>
-    <option value="Toán">📐 Toán</option>
-    <option value="Lý">⚛️ Lý</option>
-    <option value="Hóa">🧪 Hóa</option>
-    <option value="Sinh">🧬 Sinh</option>
-    <option value="Sử">📜 Sử</option>
-    <option value="Địa">🌍 Địa</option>
-    <option value="Văn">📖 Văn</option>
-      <option value="Không học">Không đi</option>
-  </select>
+  <!-- MÔN (CHECKBOX NHIỀU MÔN) -->
+  <div class="subject-box">
+    <label><input type="checkbox" value="Toán"> 📐 Toán</label>
+    <label><input type="checkbox" value="Lý"> ⚛️ Lý</label>
+    <label><input type="checkbox" value="Hóa"> 🧪 Hóa</label>
+    <label><input type="checkbox" value="Sinh"> 🧬 Sinh</label>
+    <label><input type="checkbox" value="Sử"> 📜 Sử</label>
+    <label><input type="checkbox" value="Địa"> 🌍 Địa</label>
+    <label><input type="checkbox" value="Văn"> 📖 Văn</label>
+    <label><input type="checkbox" value="Vắng"> 🚫 Vắng</label>
+    <label><input type="checkbox" value="Vắng SHCN"> 🚫 SHCN</label>
+  </div>
 
   <button id="submitBtn">Điểm danh</button>
   <div id="msg"></div>
 </div>
 
-<!-- LOADING -->
 <div id="loading" class="loading-overlay">
   <div class="spinner"></div>
   <p>Đang gửi dữ liệu...</p>
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycby4wl45xEvnZ8j3mu3Y9QVk7p-ob6Y4j8T40uveczSvwdromQha-RKtsGtMFBIK9yp6ng/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxqUqmwwaDEy8UUsC-2Wi0mB7BY3v0PUyMUJ47ZD04Ol0X_YEKlSUENORwK11o8b6NB/exec";
 
-/* ELEMENT */
 const studentSelect = document.getElementById("studentSelect");
 const studentId = document.getElementById("studentId");
 const nameInput = document.getElementById("name");
@@ -226,11 +250,9 @@ const classNameInput = document.getElementById("className");
 const month = document.getElementById("month");
 const thu = document.getElementById("thu");
 const status = document.getElementById("status");
-const subject = document.getElementById("subject");
 const msg = document.getElementById("msg");
 const btn = document.getElementById("submitBtn");
 
-/* ĐỔ DỮ LIỆU HỌC SINH */
 studentSelect.addEventListener("change", () => {
   if (!studentSelect.value) return;
   const [id, name, cls] = studentSelect.value.split("|");
@@ -239,29 +261,17 @@ studentSelect.addEventListener("change", () => {
   classNameInput.value = cls;
 });
 
-function showLoading() {
-  document.getElementById("loading").style.display = "flex";
-  btn.disabled = true;
-}
+btn.onclick = () => {
+  if (!studentId.value) return show("⚠️ Chưa chọn học sinh", "red");
+  if (!thu.value) return show("⚠️ Chưa chọn thứ", "red");
 
-function hideLoading() {
-  document.getElementById("loading").style.display = "none";
-  btn.disabled = false;
-}
+  const subjects = [...document.querySelectorAll('.subject-box input:checked')]
+                   .map(cb => cb.value);
 
-function showMsg(text, color) {
-  msg.innerText = text;
-  msg.style.color = color;
-  setTimeout(() => msg.innerText = "", 3000);
-}
+  if (subjects.length === 0)
+    return show("⚠️ Chưa chọn môn", "red");
 
-/* SUBMIT */
-btn.addEventListener("click", () => {
-  if (!studentId.value) return showMsg("⚠️ Chưa chọn học sinh", "red");
-  if (!thu.value) return showMsg("⚠️ Chưa chọn thứ", "red");
-  if (!subject.value) return showMsg("⚠️ Chưa chọn môn", "red");
-
-  showLoading();
+  loading(true);
 
   fetch(API_URL, {
     method: "POST",
@@ -274,22 +284,29 @@ btn.addEventListener("click", () => {
       month: month.value,
       thu: thu.value,
       status: status.value,
-      subject: subject.value
+      subject: subjects.join(", ")
     })
-  })
-  .then(() => {
-    hideLoading();
-    showMsg("🎉 Điểm danh thành công!", "green");
+  }).then(() => {
+    loading(false);
+    show("🎉 Điểm danh thành công!", "green");
+
     studentSelect.value = "";
     studentId.value = nameInput.value = classNameInput.value = "";
     thu.value = "";
-    subject.value = "";
-  })
-  .catch(() => {
-    hideLoading();
-    showMsg("❌ Gửi dữ liệu thất bại", "red");
+    document.querySelectorAll('.subject-box input')
+      .forEach(cb => cb.checked = false);
   });
-});
+};
+
+function loading(on) {
+  document.getElementById("loading").style.display = on ? "flex" : "none";
+}
+
+function show(text, color) {
+  msg.innerText = text;
+  msg.style.color = color;
+  setTimeout(() => msg.innerText = "", 3000);
+}
 </script>
 
 </body>
