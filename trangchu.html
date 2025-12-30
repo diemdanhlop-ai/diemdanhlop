@@ -47,7 +47,7 @@ input:focus, select:focus {
 
 button {
   background: #22c55e;
-  color: white;
+  color: #fff;
   border: none;
   font-weight: bold;
   cursor: pointer;
@@ -150,21 +150,22 @@ button:hover {
     <option value="47|Hồng Vân|12A11">Hồng Vân</option>
     <option value="48|Yến Vy|12A11">Yến Vy</option>
     <option value="49|Khắc Đông|12A11">Khắc Đông</option>
-</select>
 
   <input type="text" id="studentId" placeholder="Số thứ tự" readonly>
   <input type="text" id="name" placeholder="Họ và tên" readonly>
   <input type="text" id="className" placeholder="Lớp" readonly>
 
-  <!-- CHỌN THÁNG -->
+  <!-- THÁNG -->
   <select id="month">
-    <option>Tháng 1</option><option>Tháng 2</option><option>Tháng 3</option>
+    <option>Tháng 1</option>
+
+    <!--<option>Tháng 2</option><option>Tháng 3</option>
     <option>Tháng 4</option><option>Tháng 5</option><option>Tháng 6</option>
     <option>Tháng 7</option><option>Tháng 8</option><option>Tháng 9</option>
-    <option>Tháng 10</option><option>Tháng 11</option><option>Tháng 12</option>
+    <option>Tháng 10</option><option>Tháng 11</option><option>Tháng 12</option>-->
   </select>
 
-  <!-- ✅ CHỌN THỨ -->
+  <!-- THỨ -->
   <select id="thu">
     <option value="">-- Chọn thứ --</option>
     <option>Thứ 2</option>
@@ -179,16 +180,29 @@ button:hover {
   <!-- TRẠNG THÁI -->
   <select id="status">
     <option value="CoMat">✅ Có mặt</option>
-    <option value="NghiKhongPhep">❌ Nghỉ không phép</option>
-    <option value="NghiCoPhep">📝 Nghỉ có phép</option>
-    <option value="CupTiet1">🚫 Cúp tiết 1</option>
-    <option value="CupTiet2">🚫 Cúp tiết 2</option>
-    <option value="CupTiet3">🚫 Cúp tiết 3</option>
-    <option value="CupTiet4">🚫 Cúp tiết 4</option>
-    <option value="DiTre1">⏰ Đi trễ tiết 1</option>
-    <option value="DiTre2">⏰ Đi trễ tiết 2</option>
-    <option value="DiTre3">⏰ Đi trễ tiết 3</option>
-    <option value="DiTre4">⏰ Đi trễ tiết 4</option>
+    <option value="Nghĩ không phép">❌ Nghỉ không phép</option>
+    <option value="Nghĩ có phép">📝 Nghỉ có phép</option>
+    <option value="Cúp tiết 1">🚫 Cúp tiết 1</option>
+    <option value="Cúp tiết 2">🚫 Cúp tiết 2</option>
+    <option value="Cúp tiết 3">🚫 Cúp tiết 3</option>
+    <option value="Cúp tiết 4">🚫 Cúp tiết 4</option>
+    <option value="Đi trể tiết 1">⏰ Đi trễ tiết 1</option>
+    <option value="Đi trể tiết 2">⏰ Đi trễ tiết 2</option>
+    <option value="Đi trể tiết 3">⏰ Đi trễ tiết 3</option>
+    <option value="Đi trể tiết 4">⏰ Đi trễ tiết 4</option>
+  </select>
+
+  <!-- MÔN -->
+  <select id="subject">
+    <option value="">-- Chọn môn --</option>
+    <option value="Toán">📐 Toán</option>
+    <option value="Lý">⚛️ Lý</option>
+    <option value="Hóa">🧪 Hóa</option>
+    <option value="Sinh">🧬 Sinh</option>
+    <option value="Sử">📜 Sử</option>
+    <option value="Địa">🌍 Địa</option>
+    <option value="Văn">📖 Văn</option>
+      <option value="Không học">Không đi</option>
   </select>
 
   <button id="submitBtn">Điểm danh</button>
@@ -202,8 +216,9 @@ button:hover {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzN9j_e19I2Ih5aMPz5tl8J3ALypgdt0dWpHTidehT9jv2bIhDLNbipRBJ37WuKfIzaWA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycby4wl45xEvnZ8j3mu3Y9QVk7p-ob6Y4j8T40uveczSvwdromQha-RKtsGtMFBIK9yp6ng/exec";
 
+/* ELEMENT */
 const studentSelect = document.getElementById("studentSelect");
 const studentId = document.getElementById("studentId");
 const nameInput = document.getElementById("name");
@@ -211,6 +226,7 @@ const classNameInput = document.getElementById("className");
 const month = document.getElementById("month");
 const thu = document.getElementById("thu");
 const status = document.getElementById("status");
+const subject = document.getElementById("subject");
 const msg = document.getElementById("msg");
 const btn = document.getElementById("submitBtn");
 
@@ -241,14 +257,9 @@ function showMsg(text, color) {
 
 /* SUBMIT */
 btn.addEventListener("click", () => {
-  if (!studentId.value) {
-    showMsg("⚠️ Vui lòng chọn học sinh", "red");
-    return;
-  }
-  if (!thu.value) {
-    showMsg("⚠️ Vui lòng chọn thứ", "red");
-    return;
-  }
+  if (!studentId.value) return showMsg("⚠️ Chưa chọn học sinh", "red");
+  if (!thu.value) return showMsg("⚠️ Chưa chọn thứ", "red");
+  if (!subject.value) return showMsg("⚠️ Chưa chọn môn", "red");
 
   showLoading();
 
@@ -262,7 +273,8 @@ btn.addEventListener("click", () => {
       className: classNameInput.value,
       month: month.value,
       thu: thu.value,
-      status: status.value
+      status: status.value,
+      subject: subject.value
     })
   })
   .then(() => {
@@ -271,6 +283,7 @@ btn.addEventListener("click", () => {
     studentSelect.value = "";
     studentId.value = nameInput.value = classNameInput.value = "";
     thu.value = "";
+    subject.value = "";
   })
   .catch(() => {
     hideLoading();
