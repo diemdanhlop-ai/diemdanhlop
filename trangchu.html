@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== BACKGROUND ===== */
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #dbeafe, #f0fdf4);
@@ -17,23 +16,20 @@ body {
   justify-content: center;
 }
 
-/* ===== CONTAINER ===== */
 .container {
   width: 100%;
   max-width: 420px;
-  background: #ffffff;
+  background: #fff;
   padding: 22px;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
 
-/* ===== TITLE ===== */
 h2 {
   text-align: center;
   margin-bottom: 18px;
 }
 
-/* ===== FORM ===== */
 input, select, button {
   width: 100%;
   padding: 11px;
@@ -49,7 +45,6 @@ input:focus, select:focus {
   border-color: #22c55e;
 }
 
-/* ===== BUTTON ===== */
 button {
   background: #22c55e;
   color: white;
@@ -63,14 +58,12 @@ button:hover {
   background: #16a34a;
 }
 
-/* ===== MESSAGE ===== */
 #msg {
   margin-top: 15px;
   text-align: center;
   font-weight: bold;
 }
 
-/* ===== LOADING ===== */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -106,6 +99,7 @@ button:hover {
 <div class="container">
   <h2>📋 Điểm danh</h2>
 
+  <!-- CHỌN HỌC SINH -->
   <select id="studentSelect">
     <option value="">-- Chọn học sinh --</option>
     <option value="1|Phương Anh|12A11">Phương Anh</option>
@@ -158,11 +152,11 @@ button:hover {
     <option value="49|Khắc Đông|12A11">Khắc Đông</option>
 </select>
 
-
-  <input type="text" id="studentId" placeholder="Số Thứ Tự" readonly>
+  <input type="text" id="studentId" placeholder="Số thứ tự" readonly>
   <input type="text" id="name" placeholder="Họ và tên" readonly>
   <input type="text" id="className" placeholder="Lớp" readonly>
 
+  <!-- CHỌN THÁNG -->
   <select id="month">
     <option>Tháng 1</option><option>Tháng 2</option><option>Tháng 3</option>
     <option>Tháng 4</option><option>Tháng 5</option><option>Tháng 6</option>
@@ -170,6 +164,19 @@ button:hover {
     <option>Tháng 10</option><option>Tháng 11</option><option>Tháng 12</option>
   </select>
 
+  <!-- ✅ CHỌN THỨ -->
+  <select id="thu">
+    <option value="">-- Chọn thứ --</option>
+    <option>Thứ 2</option>
+    <option>Thứ 3</option>
+    <option>Thứ 4</option>
+    <option>Thứ 5</option>
+    <option>Thứ 6</option>
+    <option>Thứ 7</option>
+    <option>Chủ nhật</option>
+  </select>
+
+  <!-- TRẠNG THÁI -->
   <select id="status">
     <option value="CoMat">✅ Có mặt</option>
     <option value="NghiKhongPhep">❌ Nghỉ không phép</option>
@@ -195,18 +202,19 @@ button:hover {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbw58usaB54JssI9I-oZdOZ6l6gw5fq_4LViXof7xQ6eUE8CLyLvr93TzS6jQRFKlvpr8g/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzN9j_e19I2Ih5aMPz5tl8J3ALypgdt0dWpHTidehT9jv2bIhDLNbipRBJ37WuKfIzaWA/exec";
 
 const studentSelect = document.getElementById("studentSelect");
 const studentId = document.getElementById("studentId");
 const nameInput = document.getElementById("name");
 const classNameInput = document.getElementById("className");
 const month = document.getElementById("month");
+const thu = document.getElementById("thu");
 const status = document.getElementById("status");
 const msg = document.getElementById("msg");
 const btn = document.getElementById("submitBtn");
 
-/* ===== FILL STUDENT ===== */
+/* ĐỔ DỮ LIỆU HỌC SINH */
 studentSelect.addEventListener("change", () => {
   if (!studentSelect.value) return;
   const [id, name, cls] = studentSelect.value.split("|");
@@ -215,7 +223,6 @@ studentSelect.addEventListener("change", () => {
   classNameInput.value = cls;
 });
 
-/* ===== LOADING ===== */
 function showLoading() {
   document.getElementById("loading").style.display = "flex";
   btn.disabled = true;
@@ -226,17 +233,20 @@ function hideLoading() {
   btn.disabled = false;
 }
 
-/* ===== MESSAGE ===== */
 function showMsg(text, color) {
   msg.innerText = text;
   msg.style.color = color;
   setTimeout(() => msg.innerText = "", 3000);
 }
 
-/* ===== SUBMIT ===== */
+/* SUBMIT */
 btn.addEventListener("click", () => {
   if (!studentId.value) {
     showMsg("⚠️ Vui lòng chọn học sinh", "red");
+    return;
+  }
+  if (!thu.value) {
+    showMsg("⚠️ Vui lòng chọn thứ", "red");
     return;
   }
 
@@ -251,6 +261,7 @@ btn.addEventListener("click", () => {
       name: nameInput.value,
       className: classNameInput.value,
       month: month.value,
+      thu: thu.value,
       status: status.value
     })
   })
@@ -259,6 +270,7 @@ btn.addEventListener("click", () => {
     showMsg("🎉 Điểm danh thành công!", "green");
     studentSelect.value = "";
     studentId.value = nameInput.value = classNameInput.value = "";
+    thu.value = "";
   })
   .catch(() => {
     hideLoading();
