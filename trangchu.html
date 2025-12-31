@@ -37,7 +37,6 @@ input, select, button {
   font-size: 15px;
   border-radius: 6px;
   border: 1px solid #d1d5db;
-  box-sizing: border-box;
 }
 
 button {
@@ -46,16 +45,15 @@ button {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 15px;
 }
 
 #msg {
-  margin-top: 15px;
+  margin-top: 12px;
   text-align: center;
   font-weight: bold;
 }
 
-/* ===== KHUNG MÔN ===== */
+/* ===== MÔN ===== */
 .subject-box {
   margin-top: 10px;
   border: 1px solid #d1d5db;
@@ -72,7 +70,6 @@ button {
   display: flex;
   align-items: center;
   gap: 6px;
-  cursor: pointer;
 }
 
 /* ===== LOADING ===== */
@@ -96,21 +93,22 @@ button {
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h2>📋 Điểm danh</h2>
+<h2>📋 Điểm danh</h2>
 
-  <!-- HỌC SINH -->
-  <select id="studentSelect">
-    <option value="">-- Chọn học sinh --</option>
-    <option value="1|Phương Anh|12A11">Phương Anh</option>
+<!-- TÌM KIẾM -->
+<input type="text" id="searchStudent" placeholder="🔍 Tìm kiếm học sinh">
+
+<!-- CHỌN HỌC SINH -->
+<select id="studentSelect">
+<option value="">-- Chọn học sinh --</option>
+<option value="1|Phương Anh|12A11">Phương Anh</option>
     <option value="2|Gia Bảo|12A11">Gia Bảo</option>
     <option value="3|Ngọc Bích|12A11">Ngọc Bích</option>
     <option value="4|Thanh Bình|12A11">Thanh Bình</option>
@@ -158,38 +156,24 @@ button {
     <option value="47|Hồng Vân|12A11">Hồng Vân</option>
     <option value="48|Yến Vy|12A11">Yến Vy</option>
     <option value="49|Khắc Đông|12A11">Khắc Đông</option>
+</select>
 
-  <input type="text" id="studentId" placeholder="Số thứ tự" readonly>
-  <input type="text" id="name" placeholder="Họ và tên" readonly>
-  <input type="text" id="className" placeholder="Lớp" readonly>
+<input id="studentId" placeholder="Số thứ tự" readonly>
+<input id="name" placeholder="Họ và tên" readonly>
+<input id="className" placeholder="Lớp" readonly>
 
-  <!-- THÁNG -->
-  <select id="month">
-    <option>Tháng 1</option>
+<select id="month"><option>Tháng 1</option></select>
 
-    <!--<option>Tháng 2</option><option>Tháng 3</option>
-    <option>Tháng 4</option><option>Tháng 5</option><option>Tháng 6</option>
-    <option>Tháng 7</option><option>Tháng 8</option><option>Tháng 9</option>
-    <option>Tháng 10</option><option>Tháng 11</option><option>Tháng 12</option>-->
-  </select>
+<select id="thu">
+<option value="">-- Chọn thứ --</option>
+<option>Thứ 2</option><option>Thứ 3</option>
+<option>Thứ 4</option><option>Thứ 5</option>
+<option>Thứ 6</option><option>Thứ 7</option>
+<option>Chủ nhật</option>
+</select>
 
-  <!-- THỨ -->
-  <select id="thu">
-    <option value="">-- Chọn thứ --</option>
-    <option>Thứ 2</option>
-    <option>Thứ 3</option>
-    <option>Thứ 4</option>
-    <option>Thứ 5</option>
-    <option>Thứ 6</option>
-    <option>Thứ 7</option>
-    <option>Chủ nhật</option>
-  </select>
-
-  <!-- TRẠNG THÁI -->
-  <select id="status">
-
-
-    <option value="Nghĩ không phép">❌ Nghỉ không phép</option>
+<select id="status">
+<option value="Nghĩ không phép">❌ Nghỉ không phép</option>
     <option value="Nghĩ có phép">📝 Nghỉ có phép</option>
 
     <option value="Vắng có phép tiết 1">🚫 Vắng tiết 1 (Có phép)</option>
@@ -215,87 +199,102 @@ button {
     <option value="Đi trể tiết 2">⏰ Đi trễ tiết 2</option>
     <option value="Đi trể tiết 3">⏰ Đi trễ tiết 3</option>
     <option value="Đi trể tiết 4">⏰ Đi trễ tiết 4</option>
+</select>
 
-  </select>
-
-  <!-- MÔN (CHECKBOX NHIỀU MÔN) -->
-  <div class="subject-box">
-    <label><input type="checkbox" value="Toán"> 📐 Toán</label>
-    <label><input type="checkbox" value="Lý"> ⚛️ Lý</label>
-    <label><input type="checkbox" value="Hóa"> 🧪 Hóa</label>
-    <label><input type="checkbox" value="Sinh"> 🧬 Sinh</label>
-    <label><input type="checkbox" value="Sử"> 📜 Sử</label>
-    <label><input type="checkbox" value="Địa"> 🌍 Địa</label>
-    <label><input type="checkbox" value="Văn"> 📖 Văn</label>
-    <label><input type="checkbox" value="Vắng"> 🚫 Vắng</label>
-    <label><input type="checkbox" value="SHCN"> 🚫 SHCN</label>
-  </div>
-
-  <button id="submitBtn">Điểm danh</button>
-  <div id="msg"></div>
+<div class="subject-box">
+<label><input type="checkbox" value="Toán">  Toán</label>
+    <label><input type="checkbox" value="Lý">  Lý</label>
+    <label><input type="checkbox" value="Hóa">  Hóa</label>
+    <label><input type="checkbox" value="Sinh">  Sinh</label>
+    <label><input type="checkbox" value="Sử">  Sử</label>
+    <label><input type="checkbox" value="Địa">  Địa</label>
+    <label><input type="checkbox" value="Văn">  Văn</label>
+    <label><input type="checkbox" value="Vắng">  Vắng</label>
+    <label><input type="checkbox" value="SHCN"> SHCN</label>
 </div>
 
-<div id="loading" class="loading-overlay">
-  <div class="spinner"></div>
-  <p>Đang gửi dữ liệu...</p>
+<button id="submitBtn">Điểm danh</button>
+<div id="msg"></div>
+</div>
+
+<div class="loading-overlay" id="loading">
+<div class="spinner"></div>
+<p>Đang gửi dữ liệu...</p>
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwgSbZrKn9P5CTc7FC5IhVHEc4sbAf02A--c9hv6OiCZCUlU7pr1EjfSmmuWcy_903iBA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbx3xzskUOymQcbmqugo7dl7KrUXIbuIRWLh1HBm6XB9CZ4HZZzpkq-ihT_-SZ1zAQCWHw/exec";
 
 const studentSelect = document.getElementById("studentSelect");
 const studentId = document.getElementById("studentId");
 const nameInput = document.getElementById("name");
-const classNameInput = document.getElementById("className");
-const month = document.getElementById("month");
-const thu = document.getElementById("thu");
-const status = document.getElementById("status");
+const classInput = document.getElementById("className");
 const msg = document.getElementById("msg");
-const btn = document.getElementById("submitBtn");
+const searchInput = document.getElementById("searchStudent");
 
-studentSelect.addEventListener("change", () => {
-  if (!studentSelect.value) return;
-  const [id, name, cls] = studentSelect.value.split("|");
-  studentId.value = id;
-  nameInput.value = name;
-  classNameInput.value = cls;
+const allOptions = [...studentSelect.options];
+
+/* 🔍 TÌM KIẾM + TỰ ĐỘNG ĐIỀN */
+searchInput.addEventListener("input", () => {
+  const key = searchInput.value.toLowerCase().trim();
+  studentSelect.innerHTML = "";
+
+  const matched = allOptions.filter(opt =>
+    opt.value && opt.text.toLowerCase().includes(key)
+  );
+
+  /* render lại danh sách */
+  studentSelect.appendChild(allOptions[0]);
+  matched.forEach(o => studentSelect.appendChild(o));
+
+  /* 🎯 CHỈ CÒN 1 KẾT QUẢ → TỰ ĐIỀN */
+  if (matched.length === 1) {
+    const [id, name, cls] = matched[0].value.split("|");
+    studentSelect.value = matched[0].value;
+    studentId.value = id;
+    nameInput.value = name;
+    classInput.value = cls;
+  } else {
+    studentId.value = "";
+    nameInput.value = "";
+    classInput.value = "";
+  }
 });
 
-btn.onclick = () => {
-  if (!studentId.value) return show("⚠️ Chưa chọn học sinh", "red");
-  if (!thu.value) return show("⚠️ Chưa chọn thứ", "red");
+/* 🚀 GỬI ĐIỂM DANH */
+document.getElementById("submitBtn").onclick = () => {
+  if (!studentId.value) return show("⚠️ Chưa xác định học sinh", "red");
 
-  const subjects = [...document.querySelectorAll('.subject-box input:checked')]
-                   .map(cb => cb.value);
+  const subjects = [...document.querySelectorAll(".subject-box input:checked")]
+    .map(i => i.value);
 
-  if (subjects.length === 0)
-    return show("⚠️ Chưa chọn môn", "red");
+  if (!subjects.length) return show("⚠️ Chưa chọn môn", "red");
 
   loading(true);
 
   fetch(API_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      id: studentId.value,
-      name: nameInput.value,
-      className: classNameInput.value,
-      month: month.value,
-      thu: thu.value,
-      status: status.value,
-      subject: subjects.join(", ")
-    })
-  }).then(() => {
-    loading(false);
-    show("🎉 Điểm danh thành công!", "green");
+  method: "POST",
+  mode: "no-cors",
+  body: JSON.stringify({
+    id: studentId.value,
+    name: nameInput.value,
+    className: classInput.value,
+    subject: subjects.join(", "),
+    status: document.getElementById("status").value,
+    month: document.getElementById("month").value,
+    thu: document.getElementById("thu").value
+  })
+})
+.then(() => {
+  loading(false);
+  show("✅ Điểm danh thành công", "green");
+})
+.catch(() => {
+  loading(false);
+  show("❌ Lỗi gửi dữ liệu", "red");
+});
 
-    studentSelect.value = "";
-    studentId.value = nameInput.value = classNameInput.value = "";
-    thu.value = "";
-    document.querySelectorAll('.subject-box input')
-      .forEach(cb => cb.checked = false);
-  });
+
 };
 
 function loading(on) {
@@ -308,6 +307,8 @@ function show(text, color) {
   setTimeout(() => msg.innerText = "", 3000);
 }
 </script>
+
+
 
 </body>
 </html>
